@@ -21,3 +21,8 @@ def get_article_text(article_url : str) -> str|None:
         return article_text
     except Exception:
         return None
+
+
+# Testing
+WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/Matthew_Dominick"
+article_text = get_article_text(WIKIPEDIA_URL)
