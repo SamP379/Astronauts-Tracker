@@ -1,6 +1,16 @@
 import bs4
 import requests
 
+
+def combine_paragraphs(soup : bs4.BeautifulSoup) -> str:
+    """Combines all parapgraph elements of a soup object into a string"""
+    paragraphs_text = ""
+    paragraphs = soup.find_all("p")
+    for p in paragraphs:
+        paragraphs_text += p.text
+    return paragraphs_text
+
+
 def get_article_text(article_url : str) -> str|None:
     """Gets the article text (paragraph elements) from a given article"""
     try:
