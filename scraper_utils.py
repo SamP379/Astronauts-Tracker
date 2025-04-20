@@ -4,9 +4,8 @@ import nlp_utils
 import regex_utils
 
 
-
 def combine_paragraphs(soup : bs4.BeautifulSoup) -> str:
-    """Combines all paragraph elements of a soup object into a string"""
+    """Returns all paragraph elements of a soup object combined into a string"""
     combined_text = ""
     paragraphs = soup.find_all("p")
     for p in paragraphs:
@@ -16,7 +15,7 @@ def combine_paragraphs(soup : bs4.BeautifulSoup) -> str:
 
 
 def article_text(article_url : str) -> str|None:
-    """Gets the article text from a given article"""
+    """Returns the article text from a given article or None if not found"""
     try:
         response = requests.get(url = article_url)
         raw_html = response.text
