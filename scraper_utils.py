@@ -1,6 +1,8 @@
 import bs4
 import requests
+import nlp_utils
 import regex_utils
+
 
 
 def combine_paragraphs(soup : bs4.BeautifulSoup) -> str:
@@ -13,7 +15,7 @@ def combine_paragraphs(soup : bs4.BeautifulSoup) -> str:
     return combined_text
 
 
-def get_article_text(article_url : str) -> str|None:
+def article_text(article_url : str) -> str|None:
     """Gets the article text from a given article"""
     try:
         response = requests.get(url = article_url)
@@ -25,7 +27,16 @@ def get_article_text(article_url : str) -> str|None:
         return None
 
 
+def summarize_article(article_url : str) -> str|None:
+    article_text = article_text(article_url)
+    if article_text is not None:
+        article_summary = nlp_utils.summarize_text(article_text)
+        return article_summary
+    else:
+        return None
+
+
 # Testing
 WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/Matthew_Dominick"
-article_text = get_article_text(WIKIPEDIA_URL)
+article_text = article_text(WIKIPEDIA_URL)
 print(article_text)
