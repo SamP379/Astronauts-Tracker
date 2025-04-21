@@ -1,5 +1,6 @@
 import re
 import nltk
+import heapq
 nltk.download('punkt_tab')
 
 
@@ -39,28 +40,30 @@ def normalize_word_frequencies(word_frequencies : dict) -> dict:
     return word_frequencies
 
 
+def calculate_sentence_scores(sentence_list : list, word_frequencies : dict) -> dict:
+    sentence_scores = {}
+    for sentence in sentence_list:
+        if len(sentence.split(" ")) < 35:
+            for word in nltk.word_tokenize(sentence.lower()):
+                if word in word_frequencies:
+                    if sentence not in sentence_scores:
+                        sentence_scores[sentence] = word_frequencies[word]
+                    else:
+                        sentence_scores[sentence] += word_frequencies[word]
+    return sentence_scores
+
+
 def summarize_text(text : str) -> str:
-
-    clean_text = preprocess_text(article_text)
+    clean_text = preprocess_text(text)
     formatted_text = format_text(clean_text)
-
     sentence_list = nltk.sent_tokenize(clean_text)
-
     words_list = nltk.word_tokenize(formatted_text)
     word_frequencies = calculate_word_frequencies(words_list)
     word_frequencies = normalize_word_frequencies(word_frequencies)
-
-
-
-
-
-
-# --------------------- Testing code -------------------------- # 
-import scraper_utils
-
-url = "https://en.wikipedia.org/wiki/My_Darling_Clementine"
-article_text = scraper_utils.article_text(url)
-if article_text is None:
-    print("No article found")
-    exit()
-# --------------------- Testing code -------------------------- #
+    sentence_scores = calculate_sentence_scores(sentence_list, word_frequencies)
+    threshhold_score = max(sentence_scores.values()) * 0.60
+    summary = ""
+    for sentence in sentence_scores:
+        if sentence_scores[sentence] > threshhold_score:
+            summary += sentence + " "
+    return summary
