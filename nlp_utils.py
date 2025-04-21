@@ -7,7 +7,7 @@ STOPWORDS = nltk.corpus.stopwords.words('english')
 
  
 def preprocess_text(text : str) -> str:
-    """Remove Wikipedia references, newlines, and extra whitespace from the text."""
+    """Removes Wikipedia references, newlines, and extra whitespace from the text."""
     preprocessed_text = re.sub(r"\[\d*\]", "", text)
     preprocessed_text = re.sub(r"\n", "", preprocessed_text)
     preprocessed_text = re.sub(r"\s+", " ", preprocessed_text)
@@ -56,7 +56,7 @@ def calculate_sentence_scores(sentence_list : list, word_frequencies : dict) -> 
 
 
 def summarize_text(text : str) -> str:
-    """Summarizes a piece of text using NLP techniques"""
+    """Summarizes a piece of text using NLP techniques and a threshold based approach"""
     clean_text = preprocess_text(text)
     formatted_text = format_text(clean_text)
     sentence_list = nltk.sent_tokenize(clean_text)
@@ -64,9 +64,9 @@ def summarize_text(text : str) -> str:
     word_frequencies = calculate_word_frequencies(words_list)
     word_frequencies = normalize_word_frequencies(word_frequencies)
     sentence_scores = calculate_sentence_scores(sentence_list, word_frequencies)
-    threshhold_score = max(sentence_scores.values()) * 0.60
+    threshold_score = max(sentence_scores.values()) * 0.60
     summary = ""
     for sentence in sentence_scores:
-        if sentence_scores[sentence] > threshhold_score:
+        if sentence_scores[sentence] > threshold_score:
             summary += sentence + " "
     return summary
