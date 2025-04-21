@@ -20,5 +20,4 @@ def article_text(article_url : str) -> str|None:
         text = combine_paragraphs(soup)
         return text
     except Exception as error:
-        raise error
         return None
