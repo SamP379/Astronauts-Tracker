@@ -1,6 +1,5 @@
 import re
 import nltk
-import heapq
 nltk.download('punkt_tab')
 
 
@@ -23,6 +22,7 @@ def format_text(text : str) -> str:
 
 
 def calculate_word_frequencies(words_list : list) -> dict:
+    """Caculates the occurence of each word in a list of words. Returns a dict of words and their scores"""
     word_frequencies = {}
     for word in words_list:
         if word not in STOPWORDS:
@@ -34,6 +34,7 @@ def calculate_word_frequencies(words_list : list) -> dict:
 
 
 def normalize_word_frequencies(word_frequencies : dict) -> dict:
+    """Normalizes the word frequencies to be within the range 0-1"""
     maximum_frequncy = max(word_frequencies.values())
     for word in word_frequencies:
         word_frequencies[word] = word_frequencies[word] / maximum_frequncy
@@ -41,6 +42,7 @@ def normalize_word_frequencies(word_frequencies : dict) -> dict:
 
 
 def calculate_sentence_scores(sentence_list : list, word_frequencies : dict) -> dict:
+    """Calculates the total word frequency score of each sentence"""
     sentence_scores = {}
     for sentence in sentence_list:
         if len(sentence.split(" ")) < 35:
@@ -54,6 +56,7 @@ def calculate_sentence_scores(sentence_list : list, word_frequencies : dict) -> 
 
 
 def summarize_text(text : str) -> str:
+    """Summarizes a piece of text using NLP techniques"""
     clean_text = preprocess_text(text)
     formatted_text = format_text(clean_text)
     sentence_list = nltk.sent_tokenize(clean_text)
