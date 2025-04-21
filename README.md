@@ -4,6 +4,6 @@
 
 
 ## Demo
-![alt text](image.png)
+![alt text](images/demo.png)
 
 ## Instructions
